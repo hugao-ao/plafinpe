@@ -5,7 +5,7 @@ import {
 } from 'recharts';
 import { useDiagnostico } from '../../context/DiagnosticoContext';
 
-const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#8884d8', '#82ca9d', '#ffc658', '#8dd1e1'];
+const COLORS = ['#e6c860', '#d4af37', '#a98c2c', '#7e6921', '#544616', '#2a230b', '#006d4e', '#00513a'];
 
 const DiagnosticoDashboard: React.FC = () => {
   const { diagnostico, indicadores, calcularIndicadores, gerarPlanejamento, avancarEtapa } = useDiagnostico();
@@ -69,8 +69,8 @@ const DiagnosticoDashboard: React.FC = () => {
   // Função para classificar indicadores com cores
   const getClassColor = (classificacao: string) => {
     switch (classificacao) {
-      case 'Excelente': return 'bg-green-500';
-      case 'Bom': return 'bg-green-300';
+      case 'Excelente': return 'bg-gold-400';
+      case 'Bom': return 'bg-gold-300';
       case 'Regular': return 'bg-yellow-400';
       case 'Atenção': return 'bg-orange-500';
       case 'Crítico': return 'bg-red-500';
@@ -85,10 +85,10 @@ const DiagnosticoDashboard: React.FC = () => {
 
   return (
     <div className="max-w-6xl mx-auto px-4 py-8">
-      <h1 className="text-3xl font-bold text-center mb-8">Diagnóstico Financeiro</h1>
+      <h1 className="text-3xl font-bold text-center mb-8 text-gold-400">Diagnóstico Financeiro</h1>
       
       {diagnostico.dadosPessoais.nome && (
-        <p className="text-xl text-center mb-8">
+        <p className="text-xl text-center mb-8 text-gold-300">
           Diagnóstico de {diagnostico.dadosPessoais.nome}, {diagnostico.dadosPessoais.idade} anos
         </p>
       )}
@@ -100,22 +100,22 @@ const DiagnosticoDashboard: React.FC = () => {
           
           <div className="grid grid-cols-2 gap-4 mb-4">
             <div>
-              <p className="text-sm text-gray-500">Receitas Mensais</p>
-              <p className="text-xl font-semibold">R$ {totalReceitas.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}</p>
+              <p className="text-sm text-gold-300/70">Receitas Mensais</p>
+              <p className="text-xl font-semibold text-gold-400">R$ {totalReceitas.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}</p>
             </div>
             <div>
-              <p className="text-sm text-gray-500">Despesas Mensais</p>
-              <p className="text-xl font-semibold">R$ {totalDespesas.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}</p>
+              <p className="text-sm text-gold-300/70">Despesas Mensais</p>
+              <p className="text-xl font-semibold text-gold-400">R$ {totalDespesas.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}</p>
             </div>
             <div>
-              <p className="text-sm text-gray-500">Saldo Mensal</p>
-              <p className={`text-xl font-semibold ${(totalReceitas - totalDespesas) >= 0 ? 'text-green-600' : 'text-red-600'}`}>
+              <p className="text-sm text-gold-300/70">Saldo Mensal</p>
+              <p className={`text-xl font-semibold ${(totalReceitas - totalDespesas) >= 0 ? 'text-gold-400' : 'text-red-400'}`}>
                 R$ {(totalReceitas - totalDespesas).toLocaleString('pt-BR', { minimumFractionDigits: 2 })}
               </p>
             </div>
             <div>
-              <p className="text-sm text-gray-500">Patrimônio Líquido</p>
-              <p className={`text-xl font-semibold ${patrimonioLiquido >= 0 ? 'text-green-600' : 'text-red-600'}`}>
+              <p className="text-sm text-gold-300/70">Patrimônio Líquido</p>
+              <p className={`text-xl font-semibold ${patrimonioLiquido >= 0 ? 'text-gold-400' : 'text-red-400'}`}>
                 R$ {patrimonioLiquido.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}
               </p>
             </div>
@@ -128,16 +128,21 @@ const DiagnosticoDashboard: React.FC = () => {
                 data={fluxoCaixa}
                 margin={{ top: 20, right: 30, left: 20, bottom: 5 }}
               >
-                <CartesianGrid strokeDasharray="3 3" />
-                <XAxis dataKey="name" />
-                <YAxis />
-                <Tooltip formatter={(value) => `R$ ${Number(value).toLocaleString('pt-BR', { minimumFractionDigits: 2 })}`} />
-                <Legend />
+                <CartesianGrid strokeDasharray="3 3" stroke="#00513a" />
+                <XAxis dataKey="name" stroke="#d4af37" />
+                <YAxis stroke="#d4af37" />
+                <Tooltip 
+                  formatter={(value) => `R$ ${Number(value).toLocaleString('pt-BR', { minimumFractionDigits: 2 })}`}
+                  contentStyle={{ backgroundColor: '#003c2b', border: '1px solid #00513a', borderRadius: '8px' }}
+                  labelStyle={{ color: '#d4af37' }}
+                  itemStyle={{ color: '#d4af37' }}
+                />
+                <Legend wrapperStyle={{ color: '#d4af37' }} />
                 <Bar dataKey="valor" name="Valor (R$)">
                   {fluxoCaixa.map((entry, index) => (
                     <Cell 
                       key={`cell-${index}`} 
-                      fill={index === 0 ? '#00C49F' : index === 1 ? '#FF8042' : entry.valor >= 0 ? '#00C49F' : '#FF8042'} 
+                      fill={index === 0 ? '#d4af37' : index === 1 ? '#00513a' : entry.valor >= 0 ? '#d4af37' : '#00513a'} 
                     />
                   ))}
                 </Bar>
@@ -154,79 +159,79 @@ const DiagnosticoDashboard: React.FC = () => {
             <div className="space-y-4">
               <div>
                 <div className="flex justify-between items-center mb-1">
-                  <span className="text-sm font-medium">Índice de Endividamento</span>
-                  <span className={`text-xs px-2 py-1 rounded-full text-white ${getClassColor(indicadores.classificacaoEndividamento)}`}>
+                  <span className="text-sm font-medium text-gold-300">Índice de Endividamento</span>
+                  <span className={`text-xs px-2 py-1 rounded-full text-emerald-900 ${getClassColor(indicadores.classificacaoEndividamento)}`}>
                     {indicadores.classificacaoEndividamento}
                   </span>
                 </div>
-                <div className="w-full bg-gray-200 rounded-full h-2.5">
+                <div className="w-full bg-emerald-800 rounded-full h-2.5">
                   <div 
                     className={`h-2.5 rounded-full ${getClassColor(indicadores.classificacaoEndividamento)}`} 
                     style={{ width: `${Math.min(indicadores.indiceEndividamento * 100, 100)}%` }}
                   ></div>
                 </div>
-                <p className="text-xs text-gray-500 mt-1">
+                <p className="text-xs text-gold-300/70 mt-1">
                   {indicadores.indiceEndividamento.toLocaleString('pt-BR', { style: 'percent', minimumFractionDigits: 1 })} da renda anual
                 </p>
               </div>
               
               <div>
                 <div className="flex justify-between items-center mb-1">
-                  <span className="text-sm font-medium">Índice de Liquidez</span>
-                  <span className={`text-xs px-2 py-1 rounded-full text-white ${getClassColor(indicadores.classificacaoLiquidez)}`}>
+                  <span className="text-sm font-medium text-gold-300">Índice de Liquidez</span>
+                  <span className={`text-xs px-2 py-1 rounded-full text-emerald-900 ${getClassColor(indicadores.classificacaoLiquidez)}`}>
                     {indicadores.classificacaoLiquidez}
                   </span>
                 </div>
-                <div className="w-full bg-gray-200 rounded-full h-2.5">
+                <div className="w-full bg-emerald-800 rounded-full h-2.5">
                   <div 
                     className={`h-2.5 rounded-full ${getClassColor(indicadores.classificacaoLiquidez)}`} 
                     style={{ width: `${Math.min(indicadores.indiceLiquidez * 50, 100)}%` }}
                   ></div>
                 </div>
-                <p className="text-xs text-gray-500 mt-1">
+                <p className="text-xs text-gold-300/70 mt-1">
                   {indicadores.indiceLiquidez.toLocaleString('pt-BR', { maximumFractionDigits: 1 })}x as despesas mensais
                 </p>
               </div>
               
               <div>
                 <div className="flex justify-between items-center mb-1">
-                  <span className="text-sm font-medium">Taxa de Poupança</span>
-                  <span className={`text-xs px-2 py-1 rounded-full text-white ${getClassColor(indicadores.classificacaoPoupanca)}`}>
+                  <span className="text-sm font-medium text-gold-300">Taxa de Poupança</span>
+                  <span className={`text-xs px-2 py-1 rounded-full text-emerald-900 ${getClassColor(indicadores.classificacaoPoupanca)}`}>
                     {indicadores.classificacaoPoupanca}
                   </span>
                 </div>
-                <div className="w-full bg-gray-200 rounded-full h-2.5">
+                <div className="w-full bg-emerald-800 rounded-full h-2.5">
                   <div 
                     className={`h-2.5 rounded-full ${getClassColor(indicadores.classificacaoPoupanca)}`} 
                     style={{ width: `${Math.min(indicadores.taxaPoupanca * 100 * 3, 100)}%` }}
                   ></div>
                 </div>
-                <p className="text-xs text-gray-500 mt-1">
+                <p className="text-xs text-gold-300/70 mt-1">
                   {indicadores.taxaPoupanca.toLocaleString('pt-BR', { style: 'percent', minimumFractionDigits: 1 })} da renda mensal
                 </p>
               </div>
               
               <div>
                 <div className="flex justify-between items-center mb-1">
-                  <span className="text-sm font-medium">Cobertura de Seguros</span>
-                  <span className={`text-xs px-2 py-1 rounded-full text-white ${getClassColor(indicadores.classificacaoSeguros)}`}>
+                  <span className="text-sm font-medium text-gold-300">Cobertura de Seguros</span>
+                  <span className={`text-xs px-2 py-1 rounded-full text-emerald-900 ${getClassColor(indicadores.classificacaoSeguros)}`}>
                     {indicadores.classificacaoSeguros}
                   </span>
                 </div>
-                <div className="w-full bg-gray-200 rounded-full h-2.5">
+                <div className="w-full bg-emerald-800 rounded-full h-2.5">
                   <div 
                     className={`h-2.5 rounded-full ${getClassColor(indicadores.classificacaoSeguros)}`} 
                     style={{ width: `${Math.min(indicadores.coberturaSeguros * 50, 100)}%` }}
                   ></div>
                 </div>
-                <p className="text-xs text-gray-500 mt-1">
+                <p className="text-xs text-gold-300/70 mt-1">
                   {indicadores.coberturaSeguros.toLocaleString('pt-BR', { maximumFractionDigits: 1 })}x o patrimônio
                 </p>
               </div>
             </div>
           ) : (
             <div className="flex justify-center items-center h-64">
-              <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary-500"></div>
+              <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-gold-400"></div>
             </div>
           )}
         </div>
@@ -255,13 +260,18 @@ const DiagnosticoDashboard: React.FC = () => {
                       <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
                     ))}
                   </Pie>
-                  <Tooltip formatter={(value) => `R$ ${Number(value).toLocaleString('pt-BR', { minimumFractionDigits: 2 })}`} />
+                  <Tooltip 
+                    formatter={(value) => `R$ ${Number(value).toLocaleString('pt-BR', { minimumFractionDigits: 2 })}`}
+                    contentStyle={{ backgroundColor: '#003c2b', border: '1px solid #00513a', borderRadius: '8px' }}
+                    labelStyle={{ color: '#d4af37' }}
+                    itemStyle={{ color: '#d4af37' }}
+                  />
                 </PieChart>
               </ResponsiveContainer>
             </div>
           ) : (
             <div className="flex justify-center items-center h-64">
-              <p className="text-gray-500">Nenhuma receita cadastrada</p>
+              <p className="text-gold-300/70">Nenhuma receita cadastrada</p>
             </div>
           )}
         </div>
@@ -288,13 +298,18 @@ const DiagnosticoDashboard: React.FC = () => {
                       <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
                     ))}
                   </Pie>
-                  <Tooltip formatter={(value) => `R$ ${Number(value).toLocaleString('pt-BR', { minimumFractionDigits: 2 })}`} />
+                  <Tooltip 
+                    formatter={(value) => `R$ ${Number(value).toLocaleString('pt-BR', { minimumFractionDigits: 2 })}`}
+                    contentStyle={{ backgroundColor: '#003c2b', border: '1px solid #00513a', borderRadius: '8px' }}
+                    labelStyle={{ color: '#d4af37' }}
+                    itemStyle={{ color: '#d4af37' }}
+                  />
                 </PieChart>
               </ResponsiveContainer>
             </div>
           ) : (
             <div className="flex justify-center items-center h-64">
-              <p className="text-gray-500">Nenhuma despesa cadastrada</p>
+              <p className="text-gold-300/70">Nenhuma despesa cadastrada</p>
             </div>
           )}
         </div>
@@ -312,16 +327,21 @@ const DiagnosticoDashboard: React.FC = () => {
                   data={patrimonioData}
                   margin={{ top: 20, right: 30, left: 20, bottom: 5 }}
                 >
-                  <CartesianGrid strokeDasharray="3 3" />
-                  <XAxis dataKey="name" />
-                  <YAxis />
-                  <Tooltip formatter={(value) => `R$ ${Number(value).toLocaleString('pt-BR', { minimumFractionDigits: 2 })}`} />
-                  <Legend />
+                  <CartesianGrid strokeDasharray="3 3" stroke="#00513a" />
+                  <XAxis dataKey="name" stroke="#d4af37" />
+                  <YAxis stroke="#d4af37" />
+                  <Tooltip 
+                    formatter={(value) => `R$ ${Number(value).toLocaleString('pt-BR', { minimumFractionDigits: 2 })}`}
+                    contentStyle={{ backgroundColor: '#003c2b', border: '1px solid #00513a', borderRadius: '8px' }}
+                    labelStyle={{ color: '#d4af37' }}
+                    itemStyle={{ color: '#d4af37' }}
+                  />
+                  <Legend wrapperStyle={{ color: '#d4af37' }} />
                   <Bar dataKey="value" name="Valor (R$)">
                     {patrimonioData.map((entry, index) => (
                       <Cell 
                         key={`cell-${index}`} 
-                        fill={index === 2 ? '#FF8042' : COLORS[index % COLORS.length]} 
+                        fill={index === 2 ? '#00513a' : COLORS[index % COLORS.length]} 
                       />
                     ))}
                   </Bar>
@@ -330,7 +350,7 @@ const DiagnosticoDashboard: React.FC = () => {
             </div>
           ) : (
             <div className="flex justify-center items-center h-64">
-              <p className="text-gray-500">Nenhum patrimônio cadastrado</p>
+              <p className="text-gold-300/70">Nenhum patrimônio cadastrado</p>
             </div>
           )}
         </div>
@@ -341,77 +361,5 @@ const DiagnosticoDashboard: React.FC = () => {
           
           <div className="space-y-4">
             {totalReceitas < totalDespesas && (
-              <div className="p-3 bg-red-100 border-l-4 border-red-500 rounded-md">
-                <h3 className="text-red-700 font-medium">Despesas maiores que receitas</h3>
-                <p className="text-sm text-red-600">
-                  Suas despesas mensais excedem suas receitas em R$ {Math.abs(totalReceitas - totalDespesas).toLocaleString('pt-BR', { minimumFractionDigits: 2 })}.
-                  Isso pode levar ao endividamento e comprometer sua saúde financeira.
-                </p>
-              </div>
-            )}
-            
-            {indicadores && indicadores.indiceEndividamento > 0.5 && (
-              <div className="p-3 bg-orange-100 border-l-4 border-orange-500 rounded-md">
-                <h3 className="text-orange-700 font-medium">Endividamento elevado</h3>
-                <p className="text-sm text-orange-600">
-                  Seu índice de endividamento está em {indicadores.indiceEndividamento.toLocaleString('pt-BR', { style: 'percent', minimumFractionDigits: 1 })} da renda anual,
-                  o que é considerado {indicadores.classificacaoEndividamento.toLowerCase()}. Recomenda-se priorizar a quitação de dívidas.
-                </p>
-              </div>
-            )}
-            
-            {indicadores && indicadores.indiceLiquidez < 0.5 && (
-              <div className="p-3 bg-orange-100 border-l-4 border-orange-500 rounded-md">
-                <h3 className="text-orange-700 font-medium">Reserva de emergência insuficiente</h3>
-                <p className="text-sm text-orange-600">
-                  Sua reserva de emergência cobre apenas {indicadores.indiceLiquidez.toLocaleString('pt-BR', { maximumFractionDigits: 1 })} meses de despesas,
-                  o ideal é ter pelo menos 6 meses. Priorize a constituição de uma reserva adequada.
-                </p>
-              </div>
-            )}
-            
-            {indicadores && indicadores.taxaPoupanca < 0.1 && (
-              <div className="p-3 bg-yellow-100 border-l-4 border-yellow-500 rounded-md">
-                <h3 className="text-yellow-700 font-medium">Taxa de poupança baixa</h3>
-                <p className="text-sm text-yellow-600">
-                  Você está poupando apenas {indicadores.taxaPoupanca.toLocaleString('pt-BR', { style: 'percent', minimumFractionDigits: 1 })} da sua renda mensal,
-                  o que pode comprometer seus objetivos de longo prazo. Recomenda-se poupar pelo menos 20%.
-                </p>
-              </div>
-            )}
-            
-            {indicadores && indicadores.coberturaSeguros < 0.5 && diagnostico.bensPatrimoniais.length > 0 && (
-              <div className="p-3 bg-yellow-100 border-l-4 border-yellow-500 rounded-md">
-                <h3 className="text-yellow-700 font-medium">Proteção insuficiente</h3>
-                <p className="text-sm text-yellow-600">
-                  Sua cobertura de seguros representa apenas {indicadores.coberturaSeguros.toLocaleString('pt-BR', { maximumFractionDigits: 1 })}x seu patrimônio,
-                  o que pode deixá-lo vulnerável em caso de imprevistos. Considere revisar suas proteções.
-                </p>
-              </div>
-            )}
-            
-            {(!indicadores || Object.values(indicadores).every(val => !val || val === 0)) && (
-              <div className="p-3 bg-blue-100 border-l-4 border-blue-500 rounded-md">
-                <h3 className="text-blue-700 font-medium">Dados insuficientes</h3>
-                <p className="text-sm text-blue-600">
-                  Não há dados suficientes para uma análise completa. Preencha mais informações para obter um diagnóstico mais preciso.
-                </p>
-              </div>
-            )}
-          </div>
-        </div>
-      </div>
-      
-      <div className="flex justify-center mt-8">
-        <button 
-          onClick={handleGerarPlanejamento}
-          className="btn-primary text-lg py-3 px-8"
-        >
-          Gerar Planejamento Financeiro
-        </button>
-      </div>
-    </div>
-  );
-};
-
-export default DiagnosticoDashboard;
+              <div className="p-3 bg-red-900/30
+(Content truncated due to size limit. Use line ranges to read in chunks)
