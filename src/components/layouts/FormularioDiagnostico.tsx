@@ -51,20 +51,20 @@ const FormularioDiagnostico: React.FC = () => {
   return (
     <div className="container mx-auto py-8 px-4">
       <header className="mb-8 text-center">
-        <h1 className="text-4xl font-bold text-primary-600 mb-2">Sistema de Diagnóstico e Planejamento Financeiro</h1>
-        <p className="text-gray-600">
+        <h1 className="text-4xl font-bold text-gold-400 mb-2 drop-shadow-lg">Sistema de Diagnóstico e Planejamento Financeiro</h1>
+        <p className="text-gold-300/80">
           Baseado na metodologia da PLANEJAR (Associação Brasileira de Planejamento Financeiro)
         </p>
       </header>
 
       <div className="mb-8">
-        <div className="w-full bg-gray-200 rounded-full h-2.5">
+        <div className="w-full bg-emerald-800/50 rounded-full h-2.5 backdrop-blur-sm border border-emerald-700/30">
           <div 
-            className="bg-primary-600 h-2.5 rounded-full" 
+            className="bg-gold-gradient h-2.5 rounded-full shadow-gold" 
             style={{ width: `${(etapaAtual / 11) * 100}%` }}
           ></div>
         </div>
-        <div className="flex justify-between mt-2 text-xs text-gray-500">
+        <div className="flex justify-between mt-2 text-xs text-gold-300/70">
           <span>Diagnóstico</span>
           <span>Análise</span>
           <span>Planejamento</span>
@@ -72,7 +72,13 @@ const FormularioDiagnostico: React.FC = () => {
         </div>
       </div>
 
-      {renderEtapa()}
+      <div className="backdrop-blur-sm bg-emerald-800/30 p-6 rounded-2xl border border-emerald-700/50 shadow-lg">
+        {renderEtapa()}
+      </div>
+      
+      <footer className="mt-8 text-center text-gold-300/50 text-sm">
+        <p>© {new Date().getFullYear()} Sistema de Diagnóstico e Planejamento Financeiro</p>
+      </footer>
     </div>
   );
 };
